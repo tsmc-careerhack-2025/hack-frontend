@@ -76,7 +76,7 @@ interface DeployResponse {
     status: string;
     log: string;
     description: string;
-
+}
 interface CodeIssue {
     start_line: number;
     end_line: number;
