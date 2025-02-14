@@ -35,6 +35,11 @@ interface DockerYamlRequest {
     prompt?: string;
 }
 
+interface CodeDetectRequest {
+    code: string;
+    prompt?: string;
+}
+
 // Response Types
 interface CodeUpgradeResponse {
     code: string;
@@ -71,6 +76,16 @@ interface DeployResponse {
     status: string;
     log: string;
     description: string;
+
+interface CodeIssue {
+    start_line: number;
+    end_line: number;
+    message: string;
+    description: string;
+}
+
+interface CodeDetectResponse {
+    issues: CodeIssue[];
 }
 
 const BASE_URL = process.env.NODE_ENV === 'production' 
@@ -93,8 +108,8 @@ export const codeService = {
         return response.data;
     },
 
-    generateDockerYaml: async (request: DockerYamlRequest): Promise<DockerYamlResponse> => {
-        const response = await axios.post(`${BASE_URL}/deploy`, request);
+    detectCode: async (request: CodeDetectRequest): Promise<CodeDetectResponse> => {
+        const response = await axios.post(`${BASE_URL}/detect`, request);
         return response.data;
     },
 
@@ -122,4 +137,6 @@ export type {
     OptimizationSuggestion,
     DeployRequest,
     DeployResponse,
+    CodeDetectRequest,
+    CodeDetectResponse
 };
